@@ -2,7 +2,6 @@ import Link from 'next/link';
 import React from 'react';
 import colors from '../components/colors';
 import customStyles from "../styles/index.module.css"
-import AutoResponsive from 'autoresponsive-react';
 
 let style = {
 	cursor: 'default',
@@ -47,9 +46,6 @@ class Index extends React.Component {
 			this.setState({bannerSource: '/images/colorpunx-banner-trim.png'});
 		}
 
-		console.log("width", window.innerWidth);
-		console.log("rect", (window.innerWidth - 50) / 3);
-
 		if(window.innerWidth < 550){
 			this.setState({boxSize: (window.innerWidth - 50) / 3});
 		}else{
@@ -72,17 +68,16 @@ class Index extends React.Component {
 	 }
 
 	renderItems() {
-		return Object.keys(colors).map((k, i) => {
-			let data = colors[k];
+		return Object.keys(colors).map((color, index) => {
+			let data = colors[color];
 			return (
-				<div className="item" key={i} style={{...style, width: this.state.boxSize, height: this.state.boxSize}}>
-					
-					<Link href={"/colors/" + data.name.substring(1)} style={{zIndex: 1}}>
-						<img src={'/images/colors/colorpunx' + data.id + '.png'} width={this.state.boxSize} height={this.state.boxSize} />
+				<div className="item" key={index} style={{...style, width: this.state.boxSize, height: this.state.boxSize}}>
+					<Link passHref href={"/colors/" + data.name.substring(1)} style={{zIndex: 1}}>
+						<a>
+							<img src={'/images/colors/colorpunx' + data.id + '.png'} width={this.state.boxSize} height={this.state.boxSize} />
+						</a>
 					</Link>
-
-					<span className={customStyles.rectanglecolor}>{data.name}</span> 
-					
+					<span className={customStyles.rectanglecolor}>{data.name}</span>
 				</div>
 			);
 		});
@@ -109,11 +104,10 @@ class Index extends React.Component {
 						
 					</div>
 				</div>
-
-				<div ref={this.containerDiv}>
-					<AutoResponsive ref="container" {...this.getAutoResponsiveProps()} >
+				<div ref={this.containerDiv} className={customStyles.grid}>
+					{/* <AutoResponsive ref="container" {...this.getAutoResponsiveProps()} > */}
 						{this.renderItems()}
-					</AutoResponsive>
+					{/* </AutoResponsive> */}
 				</div>
 			</div>
 		);
